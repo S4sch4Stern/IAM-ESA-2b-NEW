@@ -1,0 +1,24 @@
+/**
+ * @author Jörn Kreutel
+ * @modifiziert von Alexander Thofern mittels tutorial.pdf
+ *
+ */
+
+/* TODO: add any application specific styling here */
+#mediaReadview img {
+   width: 100%;
+   max-width: 100%;
+}
+
+/* footer style for CRUD-Operation-Items (status & refresh-button)*/
+.footerStyle {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+}
+
+.deleteDialogQuestion{
+   color: black;
+   font-weight: normal;
+   padding-left: 10px;
+}
