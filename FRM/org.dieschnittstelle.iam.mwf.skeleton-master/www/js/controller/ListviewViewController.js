@@ -131,6 +131,13 @@ export default class ListviewViewController extends mwf.ViewController {
     });
   }
 
+  copyItem(item) {
+    const newMediaItem = new entities.MediaItem(item.title, item.src, item.description);
+    newMediaItem.create().then(() => {
+        this.hideDialog();
+    });
+}
+
   /*
    * for views that initiate transitions to other views
    * NOTE: return false if the view shall not be returned to, e.g. because we immediately want to display its previous view. Otherwise, do not return anything.
