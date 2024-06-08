@@ -47,9 +47,80 @@ export default class ListviewViewController extends mwf.ViewController {
     this.root.querySelector("#crudOperationStatus").innerHTML =
       this.application.currentCRUDScope;
 
+      //benno
+
+      
+      this.addNewMediaItemElement.onclick = () => {
+        /*this.crudops.create(new entities.MediaItem("m", "https://placekitten.com/100/100")).then(created => {
+            this.addToListview(created);
+        });*/
+        //this.createNewItem();
+        this.nextView("addMediaOverview", {});
+
+    };
+
+
+    this.addListener(new mwf.EventMatcher("crud", "created", "MediaItem"),((event) => {
+        this.addToListview(event.data);
+    }));
+
+    this.addListener(new mwf.EventMatcher("crud", "updated", "MediaItem"),((event) => {
+        this.updateInListview(event.data._id, event.data);
+    }));
+
+    this.addListener(new mwf.EventMatcher("crud", "deleted", "MediaItem"),((event) => {
+        this.removeFromListview(event.data);
+    }));
+    this.redrawView();
+
     // call the superclass once creation is done
     super.oncreate();
   }
+
+  redrawView() {
+    entities.MediaItem.readAll().then(items => {
+        this.initialiseListview(items);
+    });
+}
+
+copyItem(item) {
+  const newMediaItem = new entities.MediaItem(item.title, item.src, item.description);
+  newMediaItem.create().then(() => {
+      this.hideDialog();
+  });
+}
+
+editItemFrm(item) {
+  /*this.crudops.update(item._id, item).then(() => {
+      this.updateInListview(item._id, item);
+  });*/
+  this.nextView("addMediaOverview", {item: item});
+}
+
+/*deleteItem(item) {
+  /*this.crudops.delete(item._id).then(() => {
+      this.removeFromListview(item._id);
+  });*/
+  /*this.showDialog("deleteItemConfirmDialog", {
+      item: item,
+      actionBindings: {
+          submitForm: (event => {
+              event.original.preventDefault();
+              item.delete().then(() => {
+                  this.notifyListeners(new mwf.Event("crud", "deleted", "MediaItem", item._id));
+              });
+              this.hideDialog();
+          }),
+          cancelAction: (() => {
+              this.hideDialog();
+          })
+      }
+  })
+}
+*/
+  ///benno
+
+  
 
   createNewItem() {
     // var newItem = new entities.MediaItem("", "https://placekitten.com/100/100");
@@ -70,11 +141,14 @@ export default class ListviewViewController extends mwf.ViewController {
     });
   }
 
+  
   deleteItem(item) {
+
     item.delete(() => {
       this.removeFromListview(item._id);
     });
   }
+    
 
   editItem(item) {
     this.showDialog("mediaItemDialog", {
@@ -131,12 +205,6 @@ export default class ListviewViewController extends mwf.ViewController {
     });
   }
 
-  copyItem(item) {
-    const newMediaItem = new entities.MediaItem(item.title, item.src, item.description);
-    newMediaItem.create().then(() => {
-        this.hideDialog();
-    });
-}
 
   /*
    * for views that initiate transitions to other views

@@ -3,8 +3,10 @@
  * 
  * Modifiziert im Pair Programming Verfahren durch: Benito Ernst, Arthur Muszynski
  */
+
 import { GenericCRUDImplRemote, MyApplication as application, mwf } from "../Main.js";
 import { entities } from "../Main.js";
+
 
 export default class AddMediaViewController extends mwf.ViewController {
 
@@ -15,6 +17,9 @@ export default class AddMediaViewController extends mwf.ViewController {
     viewProxy;
     isEditMode;
     mediaItem;
+
+
+    
 
     constructor() {
         super();
@@ -62,7 +67,7 @@ export default class AddMediaViewController extends mwf.ViewController {
 
         this.viewProxy.bindAction("submitForm", (event => {
             event.original.preventDefault();
-
+            
             if (this.isEditMode) {
 
                 this.mediaItem.update().then(() => {
@@ -71,6 +76,7 @@ export default class AddMediaViewController extends mwf.ViewController {
 
 
             } else {
+                debugger;
                 const formData = new FormData(this.root.querySelector("form"));
 
                 const title = formData.get('title');
@@ -94,7 +100,7 @@ export default class AddMediaViewController extends mwf.ViewController {
         this.viewProxy.bindAction("pastDefaultUrl", (() => {
 
             let inputSrcElement = this.root.querySelector('#inputSrc');
-            inputSrcElement.value = "TEst";
+            inputSrcElement.value = "https://placehold.co/100x100";
             inputSrcElement.classList.add("mwf-material-filled");
             inputSrcElement.classList.add("mwf-material-valid");
         }));
@@ -128,9 +134,15 @@ export default class AddMediaViewController extends mwf.ViewController {
         }));
 
         this.viewProxy.bindAction("deleteItem", (() => {
+            
+            this.mediaItem.delete().then(() => {
+            this.previousView("mediaOverview");
+            this.notifyListeners(new mwf.Event("crud","deleted","MediaItem",mediaItem._id));
+            
+            });
 
             //      TODO
-
+            
             /*
             mediaItem.delete().then(() => {
                 this.previousView();
