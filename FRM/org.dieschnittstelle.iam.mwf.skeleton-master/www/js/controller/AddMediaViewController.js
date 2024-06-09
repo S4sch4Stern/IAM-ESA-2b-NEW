@@ -40,7 +40,7 @@ export default class AddMediaViewController extends mwf.ViewController {
             console.log('Input blurred');
             console.log('Input value:', event.target.value);
         });*/
-
+        
 
         this.mediaItem = this.args.item;
         var heading;
@@ -75,10 +75,10 @@ export default class AddMediaViewController extends mwf.ViewController {
                 });
 
 
-            } else {
-                debugger;
-                const formData = new FormData(this.root.querySelector("form"));
+            } else {       
 
+                const formData = new FormData(this.root.querySelector("form"));
+                
                 const title = formData.get('title');
                 const src = formData.get('src');
                 const description = formData.get('description');

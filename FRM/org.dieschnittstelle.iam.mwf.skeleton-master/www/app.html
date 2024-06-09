@@ -164,7 +164,7 @@
             <main class="mwf-scrollview">
                 <!--
                 fehler form-->
-                <form id="addItemForm" class="form" on-submit="submitForm">
+                <form id="addItemForm" class="formInput" on-submit="submitForm">
                     <fieldset class="mwf-material">
 
                         <legend>URL</legend>
@@ -194,8 +194,7 @@
                     <fieldset class="mwf-material">
 
                         <legend>Beschreibung</legend>
-                        
-                        <textarea id="description" name="description" rows="4" cols="50" class="mwf-autofocus">{{item.mediaItem.description}}</textarea>
+                        <textarea type="text" id="description" name="description" rows="4" cols="50" class="mwf-autofocus" value="{{item.mediaItem.description}}"></textarea>
 
                     </fieldset>
                     

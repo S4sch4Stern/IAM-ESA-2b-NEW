@@ -26,16 +26,15 @@ export class MyEntity extends EntityManager.Entity {
 export class MediaItem extends EntityManager.Entity {
     title;
     src;
-    contentType;
     added = Date.now();
     description = "";
   
-    constructor(title, src, contentType, description) {
+    constructor(title, src, description) {
       super();
       this.title = title;
       this.src = src;
-      this.contentType = contentType;
       this.description = description;
+      this.added = Date.now();
     }
   
     get addedDateString() {
