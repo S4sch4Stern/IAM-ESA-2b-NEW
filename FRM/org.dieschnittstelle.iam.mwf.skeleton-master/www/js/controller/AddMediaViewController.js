@@ -1,7 +1,6 @@
 /**
  * @author Jörn Kreutel
- * 
- * Modifiziert im Pair Programming Verfahren durch: Benito Ernst, Arthur Muszynski
+ * @modifiziert von Alexander Thofern mittels Übungsdokument.pdf & tutorial.pdf
  */
 
 import { GenericCRUDImplRemote, MyApplication as application, mwf } from "../Main.js";
@@ -41,7 +40,7 @@ export default class AddMediaViewController extends mwf.ViewController {
             console.log('Input value:', event.target.value);
         });*/
         
-
+        debugger;
         this.mediaItem = this.args.item;
         var heading;
         var isLocal;
@@ -107,14 +106,14 @@ export default class AddMediaViewController extends mwf.ViewController {
 
         this.viewProxy.bindAction("showFileUrl", ((event) => {
 
-            var test = this.root.querySelector('#inputSrc');
-            const test1 = this.root.querySelector('#imgPreview');
+            var inputSrc = this.root.querySelector('#inputSrc');
+            const imgPreview = this.root.querySelector('#imgPreview');
 
             console.log(event);
 
             const file = event.original.target.files[0];
 
-            test.value = file.name;
+            inputSrc.value = file.name;
 
 
             console.log(this);
@@ -127,7 +126,7 @@ export default class AddMediaViewController extends mwf.ViewController {
 
             reader.onload = function(e) {
                 const imageUrl = e.target.result;
-                test1.src = imageUrl;
+                imgPreview.src = imageUrl;
             };
 
             reader.readAsDataURL(file);

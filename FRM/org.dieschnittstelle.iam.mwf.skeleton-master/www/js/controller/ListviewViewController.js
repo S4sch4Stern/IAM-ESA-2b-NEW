@@ -97,30 +97,6 @@ editItemFrm(item) {
   this.nextView("addMediaOverview", {item: item});
 }
 
-/*deleteItem(item) {
-  /*this.crudops.delete(item._id).then(() => {
-      this.removeFromListview(item._id);
-  });*/
-  /*this.showDialog("deleteItemConfirmDialog", {
-      item: item,
-      actionBindings: {
-          submitForm: (event => {
-              event.original.preventDefault();
-              item.delete().then(() => {
-                  this.notifyListeners(new mwf.Event("crud", "deleted", "MediaItem", item._id));
-              });
-              this.hideDialog();
-          }),
-          cancelAction: (() => {
-              this.hideDialog();
-          })
-      }
-  })
-}
-*/
-  ///benno
-
-  
 
   createNewItem() {
     // var newItem = new entities.MediaItem("", "https://placekitten.com/100/100");

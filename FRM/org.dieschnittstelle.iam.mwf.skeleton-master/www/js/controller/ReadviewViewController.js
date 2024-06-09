@@ -11,7 +11,8 @@ export default class ReadviewViewController extends mwf.ViewController {
   root;
   // TODO-REPEATED: declare custom instance attributes for this controller
   viewProxy;
-
+  mediaItem;
+  
   constructor() {
     super();
 
@@ -32,6 +33,11 @@ export default class ReadviewViewController extends mwf.ViewController {
       },
       this.root
     ).viewProxy;
+
+    this.viewProxy.bindAction("editItem", (() => {
+      this.nextView("addMediaOverview", { item: this.mediaItem });
+  }));
+
     this.viewProxy.bindAction("deleteItem", () => {
       mediaItem.delete().then(() => {
         this.previousView({ deletedItem: mediaItem });
@@ -41,6 +47,7 @@ export default class ReadviewViewController extends mwf.ViewController {
     // call the superclass once creation is done
     super.oncreate();
   }
+  
 
   /*
    * for views that initiate transitions to other views
