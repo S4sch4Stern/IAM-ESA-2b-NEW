@@ -15,7 +15,6 @@ export default class AddMediaViewController extends mwf.ViewController {
     // TODO-REPEATED: declare custom instance attributes for this controller
     viewProxy;
     isEditMode;
-    mediaItem;
 
 
     
@@ -39,9 +38,17 @@ export default class AddMediaViewController extends mwf.ViewController {
             console.log('Input blurred');
             console.log('Input value:', event.target.value);
         });*/
-        
         debugger;
-        this.mediaItem = this.args.item;
+      
+        //Get media item attributes from exisiting item and hand it over for editing
+        const mediaItem = this.args.item;
+        /*
+        this.mediaItemBackup = JSON.parse(JSON.stringify(this.mediaItem));
+        console.log(this.mediaItemBackup.title);
+        */
+  
+        
+
         var heading;
         var isLocal;
 
@@ -51,7 +58,7 @@ export default class AddMediaViewController extends mwf.ViewController {
             isLocal = false;
         }
 
-
+        console.log(this.mediaItem);
         if (this.mediaItem == null) {
             heading = "Neues Medium";
         } else {
@@ -84,12 +91,15 @@ export default class AddMediaViewController extends mwf.ViewController {
 
                 const newMediaItem = new entities.MediaItem(title, src, description);
 
-                console.log(newMediaItem);
+                console.log("xxx "+newMediaItem);
 
                 newMediaItem.create().then(() => {
+                    debugger;
                     this.isEditMode = true;
                     this.previousView({item: newMediaItem});
-                    console.log(newMediaItem);
+                    console.log("ppp" + newMediaItem);
+                    console.log("status " + this.isEditMode);
+
                 });
             }
         }));
@@ -131,9 +141,10 @@ export default class AddMediaViewController extends mwf.ViewController {
 
             reader.readAsDataURL(file);
         }));
-
+        //debugger;
         this.viewProxy.bindAction("deleteItem", (() => {
             
+            console.log("item" + this.mediaItem);
             this.mediaItem.delete().then(() => {
             this.previousView("mediaOverview");
             this.notifyListeners(new mwf.Event("crud","deleted","MediaItem",mediaItem._id));
