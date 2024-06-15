@@ -47,7 +47,6 @@ export default class AddMediaViewController extends mwf.ViewController {
         this.mediaItemBackup = JSON.parse(JSON.stringify(this.mediaItem));
         console.log(this.mediaItemBackup.title);
         */
-  
         
 
         var heading;
