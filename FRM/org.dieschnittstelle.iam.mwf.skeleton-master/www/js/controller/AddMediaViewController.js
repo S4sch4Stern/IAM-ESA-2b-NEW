@@ -14,6 +14,7 @@ export default class AddMediaViewController extends mwf.ViewController {
     root;
     // TODO-REPEATED: declare custom instance attributes for this controller
     viewProxy;
+    mediaItem;
     isEditMode;
 
 
@@ -38,10 +39,10 @@ export default class AddMediaViewController extends mwf.ViewController {
             console.log('Input blurred');
             console.log('Input value:', event.target.value);
         });*/
-        debugger;
+        //debugger;
       
         //Get media item attributes from exisiting item and hand it over for editing
-        const mediaItem = this.args.item;
+        this.mediaItem = this.args.item;
         /*
         this.mediaItemBackup = JSON.parse(JSON.stringify(this.mediaItem));
         console.log(this.mediaItemBackup.title);
@@ -94,7 +95,7 @@ export default class AddMediaViewController extends mwf.ViewController {
                 console.log("xxx "+newMediaItem);
 
                 newMediaItem.create().then(() => {
-                    debugger;
+                    //debugger;
                     this.isEditMode = true;
                     this.previousView({item: newMediaItem});
                     console.log("ppp" + newMediaItem);

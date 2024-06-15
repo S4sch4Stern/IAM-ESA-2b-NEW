@@ -42,6 +42,7 @@ import ListviewViewController from "./controller/ListviewViewController.js";
 import ReadviewViewController from "./controller/ReadviewViewController.js"
 import AddMediaViewController from "./controller/AddMediaViewController.js";
 import EditViewController from "./controller/EditViewController.js";
+import EditviewViewController from "./controller/EditviewViewController.js";
 
 // we export the framework modules required by the application and the application modules required by the framework
 export {
@@ -62,7 +63,8 @@ export {
     ListviewViewController,
     ReadviewViewController,
     AddMediaViewController,
-    EditViewController
+    EditViewController,
+    EditviewViewController,
 }
 
 // then start the application

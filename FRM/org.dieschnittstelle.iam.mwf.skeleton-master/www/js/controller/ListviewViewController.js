@@ -26,7 +26,7 @@ export default class ListviewViewController extends mwf.ViewController {
    */
   async oncreate() {
     // TODO: do databinding, set listeners, initialise the view
-    debugger;
+    //debugger;
     this.addNewMediaItemElement = this.root.querySelector("#addNewMediaItem");
 
     /*this.addNewMediaItemElement.onclick = () => {
@@ -100,14 +100,14 @@ editItemFrm(item) {
   /*this.crudops.update(item._id, item).then(() => {
       this.updateInListview(item._id, item);
   });*/
-  debugger;
+  //debugger;
   this.nextView("addMediaOverview", {item: item});
 }
 
 
   createNewItem() {
     // var newItem = new entities.MediaItem("", "https://placekitten.com/100/100");
-    debugger;
+    //debugger;
 
     // placehold Bild ausgewählt, um die Anforderungen aus MF4 zu prüfen. Das placekitten Bild ist nicht verfügbar
     var newItem = new entities.MediaItem("", "https://placehold.co/100x100");

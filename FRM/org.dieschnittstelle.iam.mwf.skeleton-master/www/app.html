@@ -77,7 +77,7 @@
                 <!--TO DO Edit no function-->
                 <button class="mwf-imgbutton mwf-img-pencil mwf-right-align" on-click="editItem"></button>
 
-                
+
             </header>
 
             <main class="mwf-scrollview">
@@ -102,9 +102,12 @@
         </header>
         <main>
             <ul>
-                <li class="mwf-li-singletitle mwf-menu-item" data-mwf-targetaction="deleteItemConfirmDialog">Löschen</li>
-                <li class="mwf-li-singletitle mwf-menu-item" data-mwf-targetaction="editItem">Editieren (Nach Vorgabe MWF)</li>
-                <li class="mwf-li-singletitle mwf-menu-item" data-mwf-targetaction="editItemFrm">Editieren (Nach Vorgabe FRM)</li>
+                <li class="mwf-li-singletitle mwf-menu-item" data-mwf-targetaction="deleteItemConfirmDialog">Löschen
+                </li>
+                <li class="mwf-li-singletitle mwf-menu-item" data-mwf-targetaction="editItem">Editieren (Nach Vorgabe
+                    MWF)</li>
+                <li class="mwf-li-singletitle mwf-menu-item" data-mwf-targetaction="editItemFrm">Editieren (Nach Vorgabe
+                    FRM)</li>
                 <li class="mwf-li-singletitle mwf-menu-item" data-mwf-targetaction="copyItem">Kopieren</li>
             </ul>
         </main>
@@ -155,31 +158,37 @@
                 <button class="mwf-imgbutton mwf-img-sandwich mwf-left-align"></button>
                 <h1 class="mwf-left-align mwf-dyncontent">{{item.heading}}</h1>
                 {{#if item.isEditMode}}
-                <button id="addViewDeLButton" class="mwf-imgbutton mwf-img-delete mwf-right-align" type="button" on-click="deleteItem"></button>
-                <button class="mwf-imgbutton mwf-img-paste mwf-right-align" type="button" on-click="pastDefaultUrl" disabled></button>
+                <button id="addViewDeLButton" class="mwf-imgbutton mwf-img-delete mwf-right-align" type="button"
+                    on-click="deleteItem"></button>
+                <button class="mwf-imgbutton mwf-img-paste mwf-right-align" type="button" on-click="pastDefaultUrl"
+                    disabled></button>
                 {{else}}
-                <button id="addViewDeLButton" class="mwf-imgbutton mwf-img-delete mwf-right-align" on-click="deleteItem" disabled></button>
+                <button id="addViewDeLButton" class="mwf-imgbutton mwf-img-delete mwf-right-align" on-click="deleteItem"
+                    disabled></button>
                 <button class="mwf-imgbutton mwf-img-paste mwf-right-align" on-click="pastDefaultUrl"></button>
                 {{/if}}
-    
-                <button class="mwf-imgbutton mwf-img-disk mwf-right-align" form="addItemForm" on-click="saveItem"></button>
+
+                <button class="mwf-imgbutton mwf-img-disk mwf-right-align" form="addItemForm"
+                    on-click="saveItem"></button>
             </header>
             <main class="mwf-scrollview">
-                
+
                 <form id="addItemForm" class="formInput" on-submit="submitForm">
                     <fieldset class="mwf-material">
 
                         <legend>URL</legend>
 
-                        <input id="inputSrc" type="text" name="src" autocomplete="off" class="mwf-autofocus mwf-material-altinput-target" value="{{item.mediaItem.src}}" required>
+                        <input id="inputSrc" type="text" name="src" autocomplete="off"
+                            class="mwf-autofocus mwf-material-altinput-target" value="{{item.mediaItem.src}}" required>
 
                         {{#if !item.isLocal}}
                         <label for="imgDataButton" class="mwf-imgbutton mwf-img-camera mwf-material-altinput"></label>
-                        <input id="imgDataButton" name="datei" type="file" size="50" class="mwf-material-altinput" on-change="showFileUrl" accept="image/*">
+                        <input id="imgDataButton" name="datei" type="file" size="50" class="mwf-material-altinput"
+                            on-change="showFileUrl" accept="image/*">
                         {{/if}}
 
                     </fieldset>
-                    
+
                     {{#if item.isEditMode}}
                     <img class="mwf-material custom-prev-image" src="{{item.mediaItem.src}}">
                     {{else}}
@@ -189,25 +198,27 @@
                     <fieldset class="mwf-material">
 
                         <legend>Titel</legend>
-                        
-                        <input type="text" name="title" autocomplete="off" class="mwf-autofocus" value="{{item.mediaItem.title}}" required>
+
+                        <input type="text" name="title" autocomplete="off" class="mwf-autofocus"
+                            value="{{item.mediaItem.title}}" required>
 
                     </fieldset>
                     <fieldset class="mwf-material">
 
                         <legend>Beschreibung</legend>
-                        <textarea id="description" name="description" rows="4" cols="50" class="mwf-autofocus" value="{{item.mediaItem.description}}"></textarea>
+                        <textarea id="description" name="description" rows="4" cols="50" class="mwf-autofocus"
+                            value="{{item.mediaItem.description}}"></textarea>
 
                     </fieldset>
-                    
+
                 </form>
             </main>
             <footer>
                 <button class="mwf-imgbutton mwf-img-backward mwf-back"></button>
             </footer>
-            </div>
-    </div>  
-    
+        </div>
+    </div>
+
 </body>
 
 
