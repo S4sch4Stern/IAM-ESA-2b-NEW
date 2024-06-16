@@ -1,8 +1,8 @@
 /**
  * @author Jörn Kreutel
- * 
- * Modifiziert im Pair Programming Verfahren durch: Benito Ernst, Arthur Muszynski
+ * @modifiziert von Alexander Thofern mittels Übungsdokument.pdf & tutorial.pdf
  */
+
 import { GenericCRUDImplRemote, MyApplication as application, mwf } from "../Main.js";
 
 export default class EditviewViewController extends mwf.ViewController {
@@ -12,21 +12,25 @@ export default class EditviewViewController extends mwf.ViewController {
     root;
     // TODO-REPEATED: declare custom instance attributes for this controller
     viewProxy;
+    mediaItem;
 
     constructor() {
         super();
         this.crudops = GenericCRUDImplRemote.newInstance("MediaItem");
         console.log("EditviewViewController()");
     }
-
+    //xx
     /*
      * for any view: initialise the view
      */
     async oncreate() {
+        //debugger;
+
         // TODO: do databinding, set listeners, initialise the view
-        debugger;
         this.mediaItem = this.args.item;
         this.mediaItemBackup = JSON.parse(JSON.stringify(this.mediaItem));
+
+
 
         this.viewProxy = this.bindElement(
             "mediaEditview", { item: this.mediaItem, app: application }, this.root
@@ -73,13 +77,13 @@ export default class EditviewViewController extends mwf.ViewController {
         }
 
         // call the superclass once creation is done
+        
         super.oncreate();
     }
 
     // revert unconfirmed changes
     onback() {
 
-        debugger; 
         this.mediaItem.title = this.mediaItemBackup.title;
         this.mediaItem.src = this.mediaItemBackup.src;
         this.mediaItem.contentType = this.mediaItemBackup.contentType;
@@ -107,6 +111,7 @@ export default class EditviewViewController extends mwf.ViewController {
 
     deleteItem(item) {
         item.delete().then(() => {
+ 
             this.previousView({ deletedItem: item });
         })
     }

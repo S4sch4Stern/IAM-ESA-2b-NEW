@@ -75,7 +75,7 @@
                 <button class="mwf-imgbutton mwf-img-delete mwf-right-align" on-click="deleteItem"></button>
 
                 <!--TO DO Edit no function-->
-                <button class="mwf-imgbutton mwf-img-pencil mwf-right-align" on-click="editItem"></button>
+                <button class="mwf-imgbutton mwf-img-pencil mwf-right-align" on-click="mediaEditview"></button>
 
 
             </header>
@@ -106,7 +106,7 @@
                 </li>
                 <li class="mwf-li-singletitle mwf-menu-item" data-mwf-targetaction="editItem">Editieren (Nach Vorgabe
                     MWF)</li>
-                <li class="mwf-li-singletitle mwf-menu-item" data-mwf-targetaction="editItemFrm">Editieren (Nach Vorgabe
+                <li class="mwf-li-singletitle mwf-menu-item" data-mwf-targetview="mediaEditview">Editieren (Nach Vorgabe
                     FRM)</li>
                 <li class="mwf-li-singletitle mwf-menu-item" data-mwf-targetaction="copyItem">Kopieren</li>
             </ul>
@@ -151,73 +151,44 @@
     </div>
 
 
-    <!-- CreateMediaView -->
-    <div class="mwf-view" id="addMediaOverview" data-mwf-viewcontroller="AddMediaViewController">
-        <div class="mwf-template mwf-databind" data-mwf-templatename="addMediaview">
-            <header>
-                <button class="mwf-imgbutton mwf-img-sandwich mwf-left-align"></button>
-                <h1 class="mwf-left-align mwf-dyncontent">{{item.heading}}</h1>
-                {{#if item.isEditMode}}
-                <button id="addViewDeLButton" class="mwf-imgbutton mwf-img-delete mwf-right-align" type="button"
-                    on-click="deleteItem"></button>
-                <button class="mwf-imgbutton mwf-img-paste mwf-right-align" type="button" on-click="pastDefaultUrl"
-                    disabled></button>
+<!-- Add / Edit view -->
+<div class="mwf-view" id="mediaEditview" data-mwf-viewcontroller="EditviewViewController">
+    <div class="mwf-template mwf-databind" data-mwf-templatename="mediaEditview">
+        <header>
+            <button class="mwf-imgbutton mwf-img-sandwich mwf-left-align"></button>
+            <h1 class="mwf-dyncontent">{{#if item.created}}{{item.title}}{{else}}Neues Medium{{/if}}</h1>
+            <input class="mwf-imgbutton mwf-img-disk mwf-right-align" type="submit" value="Speichern" form="mediaEditviewForm">
+            <button class="mwf-imgbutton mwf-img-delete mwf-right-align" on-click="deleteItem" disabled="{{#unless item.created}}disabled{{/unless}}"></button>
+            <button class="mwf-imgbutton mwf-img-paste mwf-right-align" on-click="pasteDefaultURL" disabled="{{#if item.created}}disabled{{/if}}"></button>
+        </header>
+        <main class="mwf-scrollview">
+            <form id="mediaEditviewForm">
+                <fieldset class="mwf-material" name="urlfield">
+                    <legend>URL</legend>
+                    <input class="mwf-material-altinput-target" pattern="http://.*|https://.*|data:.*|blob:.*|content/.*" type="text" name="src" value="{{item.src}}" on-blur="refreshPreviewImage" required>
+                    <input class="mwf-material-altinput" id="srcfile" type="file" name="srcfile" accept="image/*,video/*">
+                    <label class="mwf-imgbutton mwf-img-camera mwf-material-altinput" for="srcfile" hidden="{{#if app.currentCRUDScope == 'local'}}hidden{{/if}}"></label>
+                </fieldset>
+                {{#if item.mediaType == 'video'}}
+                <video id="prevImageEdit" class="preview-image" src="{{#if item.created}}{{item.src}}{{/if}}" controls></video>
                 {{else}}
-                <button id="addViewDeLButton" class="mwf-imgbutton mwf-img-delete mwf-right-align" on-click="deleteItem"
-                    disabled></button>
-                <button class="mwf-imgbutton mwf-img-paste mwf-right-align" on-click="pastDefaultUrl"></button>
+                <img class="preview-image" src="{{#if item.created}}{{item.src}}{{/if}}">
                 {{/if}}
-
-                <button class="mwf-imgbutton mwf-img-disk mwf-right-align" form="addItemForm"
-                    on-click="saveItem"></button>
-            </header>
-            <main class="mwf-scrollview">
-
-                <form id="addItemForm" class="formInput" on-submit="submitForm">
-                    <fieldset class="mwf-material">
-
-                        <legend>URL</legend>
-
-                        <input id="inputSrc" type="text" name="src" autocomplete="off"
-                            class="mwf-autofocus mwf-material-altinput-target" value="{{item.mediaItem.src}}" required>
-
-                        {{#if !item.isLocal}}
-                        <label for="imgDataButton" class="mwf-imgbutton mwf-img-camera mwf-material-altinput"></label>
-                        <input id="imgDataButton" name="datei" type="file" size="50" class="mwf-material-altinput"
-                            on-change="showFileUrl" accept="image/*">
-                        {{/if}}
-
-                    </fieldset>
-
-                    {{#if item.isEditMode}}
-                    <img class="mwf-material custom-prev-image" src="{{item.mediaItem.src}}">
-                    {{else}}
-                    <img id="imgPreview" class="mwf-material custom-prev-image">
-                    {{/if}}
-
-                    <fieldset class="mwf-material">
-
-                        <legend>Titel</legend>
-
-                        <input type="text" name="title" autocomplete="off" class="mwf-autofocus"
-                            value="{{item.mediaItem.title}}" required>
-
-                    </fieldset>
-                    <fieldset class="mwf-material">
-
-                        <legend>Beschreibung</legend>
-                        <textarea id="description" name="description" rows="4" cols="50" class="mwf-autofocus"
-                            value="{{item.mediaItem.description}}"></textarea>
-
-                    </fieldset>
-
-                </form>
-            </main>
-            <footer>
-                <button class="mwf-imgbutton mwf-img-backward mwf-back"></button>
-            </footer>
-        </div>
+                <fieldset class="mwf-material">
+                    <legend>Titel</legend>
+                    <input type="text" name="title" value="{{item.title}}" required>
+                </fieldset>
+                <fieldset class="mwf-material">
+                    <legend>Beschreibung</legend>
+                    <textarea name="description" value="{{item.description}}"></textarea>
+                </fieldset>
+            </form>
+        </main>
+        <footer>
+            <button class="mwf-imgbutton mwf-img-backward mwf-back mwf-left-align"></button>
+        </footer>
     </div>
+</div>
 
 </body>
 

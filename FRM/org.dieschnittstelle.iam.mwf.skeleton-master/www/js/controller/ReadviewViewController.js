@@ -11,7 +11,6 @@ export default class ReadviewViewController extends mwf.ViewController {
   root;
   // TODO-REPEATED: declare custom instance attributes for this controller
   viewProxy;
-  mediaItem;
   
   constructor() {
     super();
@@ -24,23 +23,30 @@ export default class ReadviewViewController extends mwf.ViewController {
    */
   async oncreate() {
     // TODO: do databinding, set listeners, initialise the view
-    var mediaItem = this.args.item;
+    //var mediaItem = this.args.item;
     // new entities.MediaItem("m","https://placekitten.com/300/400");
+    //Benno
+     // TODO: do databinding, set listeners, initialise the view
+     this.mediaItem = this.args.item;
+//Benno
+
+
     this.viewProxy = this.bindElement(
+  
       "mediaReadviewTemplate",
       {
-        item: mediaItem,
+        item: this.mediaItem,
       },
       this.root
     ).viewProxy;
 
-    this.viewProxy.bindAction("editItem", (() => {
-      this.nextView("addMediaOverview", { item: this.mediaItem });
+    this.viewProxy.bindAction("mediaEditview", (() => {
+      this.nextView("mediaEditview", { item: this.mediaItem });
   }));
 
     this.viewProxy.bindAction("deleteItem", () => {
-      mediaItem.delete().then(() => {
-        this.previousView({ deletedItem: mediaItem });
+      this.mediaItem.delete().then(() => {
+        this.previousView({ deletedItem: this.mediaItem });
       });
     });
 
@@ -48,6 +54,19 @@ export default class ReadviewViewController extends mwf.ViewController {
     super.oncreate();
   }
   
+  //benno
+  onback() {
+    if (this.updatedItem)
+        this.previousView({updatedItem: this.updatedItem});
+    else
+        super.onback();
+
+    if (this.mediaItem.mediaType == "video") {
+        this.root.getElementsByTagName("video")[0].pause();
+        this.saveVideoTime();
+    }
+}
+  //benno
 
   /*
    * for views that initiate transitions to other views
@@ -55,7 +74,64 @@ export default class ReadviewViewController extends mwf.ViewController {
    */
   async onReturnFromNextView(nextviewid, returnValue, returnStatus) {
     // TODO: check from which view, and possibly with which status, we are returning, and handle returnValue accordingly
+    debugger;
+    if (
+      nextviewid == "mediaReadview"  &&
+      returnValue &&
+      returnValue.deletedItem
+    ) {
+      this.nextView("mediaOverview");
+      this.removeFromListview(returnValue.deletedItem._id);
+
+    }
+
+    if (
+      nextviewid == "mediaEditview"  &&
+      returnValue &&
+      returnValue.deletedItem
+    ) {
+      this.nextView("mediaOverview");
+      this.removeFromListview(returnValue.deletedItem._id);
+
+    }
+
+    if (
+      nextviewid == "mediaEditview"  &&
+      returnValue &&
+      returnValue.updatedItem
+    ) {
+      this.nextView("mediaReadview");
+      this.viewProxy.update({item: returnValue.updatedItem});
+
+
+
+    }
   }
+
+
+
+        /*
+    if (
+      nextviewid == "mediaEditview" || nextviewid == "mediaReadview" &&
+
+      returnValue == {updateItem: MediaItem}
+    ) {
+      this.nextView("mediaReadview");
+      this.updatedItem(returnValue.deletedItem._id);
+
+    }
+      
+    if (
+      nextviewid == "mediaEditview" || nextviewid == "mediaReadview" &&
+
+      returnValue == {deleteItem: MediaItem}
+    ) {
+      this.nextView("mediaOverview");
+      this.removeFromListview(returnValue.updatedItem);
+
+    }
+      */
+  
 
   /*
    * for views with listviews: bind a list item to an item view
@@ -91,4 +167,35 @@ export default class ReadviewViewController extends mwf.ViewController {
 
     // TODO: implement action bindings for dialog, accessing dialog.root
   }
+
+
+  //benno
+      /*
+     * for views that initiate transitions to other views
+     * NOTE: return false if the view shall not be returned to, e.g. because we immediately want to display its previous view. Otherwise, do not return anything.
+     */
+    /*
+      async onReturnFromNextView(nextviewid, returnValue, returnStatus) {
+        // TODO: check from which view, and possibly with which status, we are returning, and handle returnValue accordingly
+        if (nextviewid == "mediaEditview") {
+            if (returnValue) {
+
+                console.log(returnValue);
+                if (returnValue.deletedItem) {
+                    this.previousView({deletedItem: returnValue.deletedItem});
+                    return false;
+                }
+                if (returnValue.updatedItem) {
+                    this.viewProxy.update({item: returnValue.updatedItem});
+
+                    // to be forwarded to listview
+                    this.updatedItem = returnValue.updatedItem;
+                }
+                    
+            }
+        }
+    }
+        */
+        
+    
 }

@@ -14,7 +14,7 @@ export default class AddMediaViewController extends mwf.ViewController {
     root;
     // TODO-REPEATED: declare custom instance attributes for this controller
     viewProxy;
-    mediaItem;
+
     isEditMode;
 
 
@@ -33,21 +33,15 @@ export default class AddMediaViewController extends mwf.ViewController {
     async oncreate() {
         // TODO: do databinding, set listeners, initialise the view
 
-
-        /*this.test.addEventListener('blur', function(event) {
-            // Handle the blur event here
-            console.log('Input blurred');
-            console.log('Input value:', event.target.value);
-        });*/
-        //debugger;
-      
         //Get media item attributes from exisiting item and hand it over for editing
-        this.mediaItem = this.args.item;
+        const mediaItem = this.args.item;
+
+
         /*
         this.mediaItemBackup = JSON.parse(JSON.stringify(this.mediaItem));
         console.log(this.mediaItemBackup.title);
         */
-        
+  
 
         var heading;
         var isLocal;
@@ -81,8 +75,10 @@ export default class AddMediaViewController extends mwf.ViewController {
                 });
 
 
-            } else {       
+            } else {  
 
+
+                 
                 const formData = new FormData(this.root.querySelector("form"));
                 
                 const title = formData.get('title');
@@ -94,14 +90,40 @@ export default class AddMediaViewController extends mwf.ViewController {
                 console.log("xxx "+newMediaItem);
 
                 newMediaItem.create().then(() => {
-                    //debugger;
+                 
+                    
                     this.isEditMode = true;
                     this.previousView({item: newMediaItem});
-                    console.log("ppp" + newMediaItem);
+                    console.log("statusitem1" + newMediaItem);
+                    console.log("statusitem2 " + this.mediaItem);
                     console.log("status " + this.isEditMode);
-
+                    return this.mediaItem;
                 });
             }
+                
+               /*
+            const formData = new FormData(this.root.querySelector("form"));
+                
+            const title = formData.get('title');
+            const src = formData.get('src');
+            const description = formData.get('description');
+
+            this.mediaItem = new entities.MediaItem(title, src, description);
+
+            console.log("xxx "+ this.mediaItem);
+
+            this.mediaItem.create().then(() => {
+                debugger;
+                
+                this.isEditMode = true;
+                this.previousView({item: this.mediaItem});
+                console.log("statusitem1" + this.mediaItem);
+                console.log("statusitem2 " + this.mediaItem);
+                console.log("status " + this.isEditMode);
+                return this.mediaItem;
+            });
+        }
+        */
         }));
 
         console.log(application.currentCRUDScope);
@@ -112,6 +134,7 @@ export default class AddMediaViewController extends mwf.ViewController {
             inputSrcElement.value = "https://placehold.co/100x100";
             inputSrcElement.classList.add("mwf-material-filled");
             inputSrcElement.classList.add("mwf-material-valid");
+            
         }));
 
         this.viewProxy.bindAction("showFileUrl", ((event) => {
@@ -173,8 +196,10 @@ export default class AddMediaViewController extends mwf.ViewController {
         }
         
 
+
         // call the superclass once creation is done
         super.oncreate();
+        
     }
 
 
