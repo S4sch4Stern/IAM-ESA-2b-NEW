@@ -72,9 +72,58 @@ export default class ReadviewViewController extends mwf.ViewController {
    * for views that initiate transitions to other views
    * NOTE: return false if the view shall not be returned to, e.g. because we immediately want to display its previous view. Otherwise, do not return anything.
    */
+
+  
   async onReturnFromNextView(nextviewid, returnValue, returnStatus) {
-    // TODO: check from which view, and possibly with which status, we are returning, and handle returnValue accordingly
     debugger;
+    if (returnValue.deletedItem) {
+        this.nextView("mediaOverview");
+        this.removeFromListview(returnValue.deletedItem._id); 
+
+      }
+    else if(returnValue.updateInListview) {
+      this.updateInListview(returnValue.updatedItem._id, returnValue.updatedItem);     
+      }
+      this.viewProxy.update({item: returnValue.updatedItem}); // ohne diesen Teil erfolgt keine update Sicht in der Readview
+      //this.updatedItem = returnValue.updatedItem; // ohne diesen Teil gibt es Fehler
+  }
+    
+
+    
+    /*
+    if (
+      nextviewid == "mediaReadview"  &&
+      returnValue &&
+      returnValue.deletedItem
+    ) {
+      this.nextView("mediaOverview");
+      this.removeFromListview(returnValue.deletedItem._id);
+    }
+  }
+    */
+
+
+
+    /*
+    //Micha & Alex
+    debugger;
+    console.log("XXX" + returnValue);
+    console.log(JSON.stringify(returnValue));
+
+    if (nextviewid === "mediaReadview" && returnValue && returnValue.deletedItem) {
+        this.nextView("mediaOverview");
+        this.removeFromListview(returnValue.deletedItem._id);
+      }
+      else if (returnValue.updatedItem) {
+      this.updateInListview(returnValue.updatedItem._id, returnValue, nextviewid);
+
+    }
+}
+    */
+    
+
+
+    /*
     if (
       nextviewid == "mediaReadview"  &&
       returnValue &&
@@ -107,6 +156,7 @@ export default class ReadviewViewController extends mwf.ViewController {
 
     }
   }
+    */
 
 
 
