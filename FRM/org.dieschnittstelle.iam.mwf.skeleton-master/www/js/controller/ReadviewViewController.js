@@ -73,6 +73,7 @@ export default class ReadviewViewController extends mwf.ViewController {
    * NOTE: return false if the view shall not be returned to, e.g. because we immediately want to display its previous view. Otherwise, do not return anything.
    */
 
+  
   async onReturnFromNextView(nextviewid, returnValue, returnStatus) {
     debugger;
     if (nextviewid == "mediaEditview"  && returnValue && returnValue.deletedItem) {
@@ -88,7 +89,7 @@ export default class ReadviewViewController extends mwf.ViewController {
     this.viewProxy.update({item: returnValue.updatedItem}); // ohne diesen Teil erfolgt keine update Sicht in der Readview
     this.updatedItem = returnValue.updatedItem; // ohne diesen Teil gibt es Fehler
 
-/*
+/*xx
     async onReturnFromNextView(nextviewid, returnValue, returnStatus) {
       debugger;
       if (nextviewid == "mediaEditview"  && returnValue && returnValue.deletedItem) {
