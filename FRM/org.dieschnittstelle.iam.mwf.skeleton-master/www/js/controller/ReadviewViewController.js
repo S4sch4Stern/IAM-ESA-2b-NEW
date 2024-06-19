@@ -73,20 +73,54 @@ export default class ReadviewViewController extends mwf.ViewController {
    * NOTE: return false if the view shall not be returned to, e.g. because we immediately want to display its previous view. Otherwise, do not return anything.
    */
 
-  
   async onReturnFromNextView(nextviewid, returnValue, returnStatus) {
     debugger;
-    if (returnValue.deletedItem) {
+    if (nextviewid == "mediaEditview"  && returnValue && returnValue.deletedItem) {
+      this.previousView({deletedItem: returnValue.deletedItem});
+      return false;
+      //this.removeFromListview(returnValue.deletedItem._id); 
+    }
+    
+    if (nextviewid == "mediaEditview"  && returnValue && returnValue.updateInListview) {
+      this.updateInListview(returnValue.updatedItem._id, returnValue.updatedItem);     
+    }
+
+    this.viewProxy.update({item: returnValue.updatedItem}); // ohne diesen Teil erfolgt keine update Sicht in der Readview
+    this.updatedItem = returnValue.updatedItem; // ohne diesen Teil gibt es Fehler
+
+/*
+    async onReturnFromNextView(nextviewid, returnValue, returnStatus) {
+      debugger;
+      if (nextviewid == "mediaEditview"  && returnValue && returnValue.deletedItem) {
         this.nextView("mediaOverview");
         this.removeFromListview(returnValue.deletedItem._id); 
-
       }
-    else if(returnValue.updateInListview) {
-      this.updateInListview(returnValue.updatedItem._id, returnValue.updatedItem);     
+      
+      if (returnValue.updateInListview) {
+        this.updateInListview(returnValue.updatedItem._id, returnValue.updatedItem);     
       }
+  
       this.viewProxy.update({item: returnValue.updatedItem}); // ohne diesen Teil erfolgt keine update Sicht in der Readview
-      //this.updatedItem = returnValue.updatedItem; // ohne diesen Teil gibt es Fehler
+      this.updatedItem = returnValue.updatedItem; // ohne diesen Teil gibt es Fehler
+*/
+
+    // Micha Version
+
+    // if (nextviewid === "mediaReadview" && returnValue) {
+    //   if (returnValue.deletedItem) {
+    //     this.nextView("mediaOverview");
+    //     this.removeFromListview(returnValue.deletedItem._id); 
+    //   }
+
+    //   if (returnValue.updateInListview) {
+    //     this.updateInListview(returnValue.updatedItem._id, returnValue.updatedItem);     
+    //   }
+
+    //   this.viewProxy.update({item: returnValue.updatedItem}); // ohne diesen Teil erfolgt keine update Sicht in der Readview
+    //   this.updatedItem = returnValue.updatedItem; // ohne diesen Teil gibt es Fehler
+    // }
   }
+    
     
 
     
@@ -189,6 +223,7 @@ export default class ReadviewViewController extends mwf.ViewController {
    */
   bindListItemView(listviewid, itemview, itemobj) {
     // TODO: implement how attributes of itemobj shall be displayed in itemview
+    console.log("im here bindListItemView")
   }
 
   /*
