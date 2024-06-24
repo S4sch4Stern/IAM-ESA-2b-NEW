@@ -130,6 +130,7 @@ function GenericCRUDImplRemote(etype) {
         });
     };
 
+    /*
     this.loadMediaContent = function (entity, attr, callback) {
         return new Promise((resolve,reject) => {
             if (callback) {
@@ -140,6 +141,39 @@ function GenericCRUDImplRemote(etype) {
     };
 
 }
+    */
+
+
+//loadMediaContent angepasst
+this.loadMediaContent = function (entity, attr, callback) {
+    return new Promise((resolve, reject) => {
+
+        console.log(entity.src);
+
+        fetch(entity.src)
+            .then(response => {
+                const contentType = response.headers.get('Content-Type');
+                if (contentType == null) {
+                    entity[attr] = "img";
+                    resolve(entity);
+                }else{
+                    entity[attr] = contentType;
+                    resolve(entity);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                resolve();
+            });
+
+        if (callback) {
+            callback(entity);
+        }
+    })
+};
+
+}
+//loadMediaContent angepasst
 
 
 function newInstance(type) {

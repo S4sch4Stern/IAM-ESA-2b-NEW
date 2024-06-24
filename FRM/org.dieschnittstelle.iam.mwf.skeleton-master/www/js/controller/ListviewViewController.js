@@ -168,7 +168,6 @@ copyItem(item) {
    * method delete-confirm-dialog
    */
   deleteItemConfirmDialog(item) {
-    debugger;
     this.showDialog("mediaItemDeleteDialog", {
       item: item,
       actionBindings: {

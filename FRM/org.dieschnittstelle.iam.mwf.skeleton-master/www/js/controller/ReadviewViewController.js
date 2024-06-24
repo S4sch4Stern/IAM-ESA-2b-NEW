@@ -40,8 +40,10 @@ export default class ReadviewViewController extends mwf.ViewController {
       this.root
     ).viewProxy;
 
+    const args = { item: this.mediaItem, testArg: [] }
+
     this.viewProxy.bindAction("mediaEditview", (() => {
-      this.nextView("mediaEditview", { item: this.mediaItem });
+      this.nextView("mediaEditview", args);
   }));
 
     this.viewProxy.bindAction("deleteItem", () => {
@@ -49,6 +51,23 @@ export default class ReadviewViewController extends mwf.ViewController {
         this.previousView({ deletedItem: this.mediaItem });
       });
     });
+
+
+    //Benno
+    this.viewProxy.bindAction("mediaEditview", (() => {
+      if (this.mediaItem.mediaType == "video") {
+          this.root.getElementsByTagName("video")[0].pause();
+          this.saveVideoTime();
+      }
+      this.nextView("mediaEditview", {item: this.mediaItem});
+  }));
+
+  if (this.mediaItem.mediaType == "video") {
+      this.setVideoTime();
+  }
+
+    //Benno
+
 
     // call the superclass once creation is done
     super.oncreate();
@@ -66,6 +85,29 @@ export default class ReadviewViewController extends mwf.ViewController {
         this.saveVideoTime();
     }
 }
+
+
+saveVideoTime(){
+
+  let video = this.root.querySelector('#prevImageRead');
+
+  try {
+      debugger;
+      //this.mediaItem.timestamp = video.currentTime;
+      this.mediaItem.update().then(() => {
+          console.log("Videotimestamp saved!");
+      })
+      
+  } catch (error) {
+      console.log("Kein Item vorhanden!");
+  }
+}
+
+setVideoTime(){
+  let video = this.root.querySelector('#prevImageRead');
+  //debugger;
+  //video.currentTime = this.mediaItem.timestamp;
+}
   //benno
 
   /*
@@ -75,7 +117,6 @@ export default class ReadviewViewController extends mwf.ViewController {
 
   
   async onReturnFromNextView(nextviewid, returnValue, returnStatus) {
-    debugger;
     if (nextviewid == "mediaEditview"  && returnValue && returnValue.deletedItem) {
       this.previousView({deletedItem: returnValue.deletedItem});
       return false;

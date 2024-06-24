@@ -27,11 +27,17 @@ export default class EditviewViewController extends mwf.ViewController {
         //debugger;
 
         // TODO: do databinding, set listeners, initialise the view
+        console.log(this.args);
         this.mediaItem = this.args.item;
         this.mediaItemBackup = JSON.parse(JSON.stringify(this.mediaItem));
 
 
-
+        /* debuggen app
+        this.viewProxy = this.bindElement(
+            "mediaEditview", { item: this.mediaItem, app: application }, this.root
+        ).viewProxy;
+        */
+       
         this.viewProxy = this.bindElement(
             "mediaEditview", { item: this.mediaItem, app: application }, this.root
         ).viewProxy;
