@@ -38,17 +38,11 @@ export default class ReadviewViewController extends mwf.ViewController {
       this.root
     ).viewProxy;
 
-<<<<<<< HEAD
     const args = { item: this.mediaItem, testArg: [] }
 
     this.viewProxy.bindAction("mediaEditview", (() => {
       this.nextView("mediaEditview", args);
   }));
-=======
-    this.viewProxy.bindAction("mediaEditview", () => {
-      this.nextView("mediaEditview", { item: this.mediaItem });
-    });
->>>>>>> 4ae93a724fe3c3a361e8222df57235f0b8dbf8ee
 
     this.viewProxy.bindAction("deleteItem", () => {
       this.mediaItem.delete().then(() => {
@@ -105,7 +99,6 @@ export default class ReadviewViewController extends mwf.ViewController {
     }
 }
 
-<<<<<<< HEAD
 
 saveVideoTime(){
 
@@ -128,15 +121,6 @@ setVideoTime(){
   //debugger;
   //video.currentTime = this.mediaItem.timestamp;
 }
-=======
-setVideoTime(){
-    let video = this.root.querySelector('#prevImageRead');
-
-    video.currentTime = this.mediaItem.timestamp;
-}
-
-
->>>>>>> 4ae93a724fe3c3a361e8222df57235f0b8dbf8ee
   //benno
 
 
@@ -146,19 +130,8 @@ setVideoTime(){
    */
 
   async onReturnFromNextView(nextviewid, returnValue, returnStatus) {
-<<<<<<< HEAD
     if (nextviewid == "mediaEditview"  && returnValue && returnValue.deletedItem) {
       this.previousView({deletedItem: returnValue.deletedItem});
-=======
-    debugger;
-    if (
-      nextviewid == "mediaEditview" &&
-      returnValue &&
-      returnValue.deletedItem
-    ) {
-      this.previousView({ deletedItem: returnValue.deletedItem });
-      // return false - Rückkehr in die Listview "mediaOverview"
->>>>>>> 4ae93a724fe3c3a361e8222df57235f0b8dbf8ee
       return false;
     }
 
