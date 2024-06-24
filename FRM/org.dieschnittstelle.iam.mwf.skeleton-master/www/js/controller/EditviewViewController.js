@@ -31,9 +31,14 @@ export default class EditviewViewController extends mwf.ViewController {
         this.mediaItemBackup = JSON.parse(JSON.stringify(this.mediaItem));
 
 
-
+        /*
         this.viewProxy = this.bindElement(
             "mediaEditview", { item: this.mediaItem, app: application }, this.root
+        ).viewProxy;
+        */
+
+        this.viewProxy = this.bindElement(
+            "mediaEditview", { item: this.mediaItem }, this.root
         ).viewProxy;
 
         this.viewProxy.bindAction("deleteItem", (() => {
