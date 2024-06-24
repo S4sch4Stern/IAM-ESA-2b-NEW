@@ -11,7 +11,7 @@ export default class ReadviewViewController extends mwf.ViewController {
   root;
   // TODO-REPEATED: declare custom instance attributes for this controller
   viewProxy;
-  
+
   constructor() {
     super();
 
@@ -26,13 +26,11 @@ export default class ReadviewViewController extends mwf.ViewController {
     //var mediaItem = this.args.item;
     // new entities.MediaItem("m","https://placekitten.com/300/400");
     //Benno
-     // TODO: do databinding, set listeners, initialise the view
-     this.mediaItem = this.args.item;
-//Benno
-
+    // TODO: do databinding, set listeners, initialise the view
+    this.mediaItem = this.args.item;
+    //Benno
 
     this.viewProxy = this.bindElement(
-  
       "mediaReadviewTemplate",
       {
         item: this.mediaItem,
@@ -40,11 +38,17 @@ export default class ReadviewViewController extends mwf.ViewController {
       this.root
     ).viewProxy;
 
+<<<<<<< HEAD
     const args = { item: this.mediaItem, testArg: [] }
 
     this.viewProxy.bindAction("mediaEditview", (() => {
       this.nextView("mediaEditview", args);
   }));
+=======
+    this.viewProxy.bindAction("mediaEditview", () => {
+      this.nextView("mediaEditview", { item: this.mediaItem });
+    });
+>>>>>>> 4ae93a724fe3c3a361e8222df57235f0b8dbf8ee
 
     this.viewProxy.bindAction("deleteItem", () => {
       this.mediaItem.delete().then(() => {
@@ -72,20 +76,36 @@ export default class ReadviewViewController extends mwf.ViewController {
     // call the superclass once creation is done
     super.oncreate();
   }
-  
+
   //benno
   onback() {
-    if (this.updatedItem)
-        this.previousView({updatedItem: this.updatedItem});
-    else
-        super.onback();
+    if (this.updatedItem) this.previousView({ updatedItem: this.updatedItem });
+    else super.onback();
 
     if (this.mediaItem.mediaType == "video") {
-        this.root.getElementsByTagName("video")[0].pause();
-        this.saveVideoTime();
+      this.root.getElementsByTagName("video")[0].pause();
+      this.saveVideoTime();
+    }
+  }
+
+
+  saveVideoTime(){
+
+    let video = this.root.querySelector('#prevImageRead');
+
+    try {
+
+        this.mediaItem.timestamp = video.currentTime;
+        this.mediaItem.update().then(() => {
+            console.log("Videotimestamp saved!");
+        })
+        
+    } catch (error) {
+        console.log("Kein Item vorhanden!");
     }
 }
 
+<<<<<<< HEAD
 
 saveVideoTime(){
 
@@ -108,156 +128,64 @@ setVideoTime(){
   //debugger;
   //video.currentTime = this.mediaItem.timestamp;
 }
+=======
+setVideoTime(){
+    let video = this.root.querySelector('#prevImageRead');
+
+    video.currentTime = this.mediaItem.timestamp;
+}
+
+
+>>>>>>> 4ae93a724fe3c3a361e8222df57235f0b8dbf8ee
   //benno
+
 
   /*
    * for views that initiate transitions to other views
    * NOTE: return false if the view shall not be returned to, e.g. because we immediately want to display its previous view. Otherwise, do not return anything.
    */
 
-  
   async onReturnFromNextView(nextviewid, returnValue, returnStatus) {
+<<<<<<< HEAD
     if (nextviewid == "mediaEditview"  && returnValue && returnValue.deletedItem) {
       this.previousView({deletedItem: returnValue.deletedItem});
-      return false;
-      //this.removeFromListview(returnValue.deletedItem._id); 
-    }
-    
-    if (nextviewid == "mediaEditview"  && returnValue && returnValue.updateInListview) {
-      this.updateInListview(returnValue.updatedItem._id, returnValue.updatedItem);     
-    }
-
-    this.viewProxy.update({item: returnValue.updatedItem}); // ohne diesen Teil erfolgt keine update Sicht in der Readview
-    this.updatedItem = returnValue.updatedItem; // ohne diesen Teil gibt es Fehler
-
-/*xx
-    async onReturnFromNextView(nextviewid, returnValue, returnStatus) {
-      debugger;
-      if (nextviewid == "mediaEditview"  && returnValue && returnValue.deletedItem) {
-        this.nextView("mediaOverview");
-        this.removeFromListview(returnValue.deletedItem._id); 
-      }
-      
-      if (returnValue.updateInListview) {
-        this.updateInListview(returnValue.updatedItem._id, returnValue.updatedItem);     
-      }
-  
-      this.viewProxy.update({item: returnValue.updatedItem}); // ohne diesen Teil erfolgt keine update Sicht in der Readview
-      this.updatedItem = returnValue.updatedItem; // ohne diesen Teil gibt es Fehler
-*/
-
-    // Micha Version
-
-    // if (nextviewid === "mediaReadview" && returnValue) {
-    //   if (returnValue.deletedItem) {
-    //     this.nextView("mediaOverview");
-    //     this.removeFromListview(returnValue.deletedItem._id); 
-    //   }
-
-    //   if (returnValue.updateInListview) {
-    //     this.updateInListview(returnValue.updatedItem._id, returnValue.updatedItem);     
-    //   }
-
-    //   this.viewProxy.update({item: returnValue.updatedItem}); // ohne diesen Teil erfolgt keine update Sicht in der Readview
-    //   this.updatedItem = returnValue.updatedItem; // ohne diesen Teil gibt es Fehler
-    // }
-  }
-    
-    
-
-    
-    /*
-    if (
-      nextviewid == "mediaReadview"  &&
-      returnValue &&
-      returnValue.deletedItem
-    ) {
-      this.nextView("mediaOverview");
-      this.removeFromListview(returnValue.deletedItem._id);
-    }
-  }
-    */
-
-
-
-    /*
-    //Micha & Alex
+=======
     debugger;
-    console.log("XXX" + returnValue);
-    console.log(JSON.stringify(returnValue));
-
-    if (nextviewid === "mediaReadview" && returnValue && returnValue.deletedItem) {
-        this.nextView("mediaOverview");
-        this.removeFromListview(returnValue.deletedItem._id);
-      }
-      else if (returnValue.updatedItem) {
-      this.updateInListview(returnValue.updatedItem._id, returnValue, nextviewid);
-
-    }
-}
-    */
-    
-
-
-    /*
     if (
-      nextviewid == "mediaReadview"  &&
+      nextviewid == "mediaEditview" &&
       returnValue &&
       returnValue.deletedItem
     ) {
-      this.nextView("mediaOverview");
-      this.removeFromListview(returnValue.deletedItem._id);
-
+      this.previousView({ deletedItem: returnValue.deletedItem });
+      // return false - Rückkehr in die Listview "mediaOverview"
+>>>>>>> 4ae93a724fe3c3a361e8222df57235f0b8dbf8ee
+      return false;
     }
 
     if (
-      nextviewid == "mediaEditview"  &&
+      nextviewid == "mediaEditview" &&
       returnValue &&
-      returnValue.deletedItem
+      returnValue.updateInListview
     ) {
-      this.nextView("mediaOverview");
-      this.removeFromListview(returnValue.deletedItem._id);
-
+      this.updateInListview(
+        returnValue.updatedItem._id,
+        returnValue.updatedItem
+      );
     }
+    console.log("test");
+    console.log(this);
+    console.log(this.viewProxy);
+    console.log(this.updatedItem);
+    // mittels ViewProxy mediaitem updaten
+    this.viewProxy.update({ item: returnValue.updatedItem }); // ohne diesen Teil erfolgt keine update Sicht in der Readview
+    console.log(this.viewProxy);
 
-    if (
-      nextviewid == "mediaEditview"  &&
-      returnValue &&
-      returnValue.updatedItem
-    ) {
-      this.nextView("mediaReadview");
-      this.viewProxy.update({item: returnValue.updatedItem});
-
-
-
-    }
+    // Übergabe des geupdateten mediaitems an den ReadviewViewController zur korrekten Anzeige nachdem updaten
+    this.updatedItem = returnValue.updatedItem; // ohne diesen Teil gibt es Fehler weil das MediaItem undefined ist
+    console.log(this.updatedItem);
   }
-    */
 
 
-
-        /*
-    if (
-      nextviewid == "mediaEditview" || nextviewid == "mediaReadview" &&
-
-      returnValue == {updateItem: MediaItem}
-    ) {
-      this.nextView("mediaReadview");
-      this.updatedItem(returnValue.deletedItem._id);
-
-    }
-      
-    if (
-      nextviewid == "mediaEditview" || nextviewid == "mediaReadview" &&
-
-      returnValue == {deleteItem: MediaItem}
-    ) {
-      this.nextView("mediaOverview");
-      this.removeFromListview(returnValue.updatedItem);
-
-    }
-      */
-  
 
   /*
    * for views with listviews: bind a list item to an item view
@@ -265,7 +193,7 @@ setVideoTime(){
    */
   bindListItemView(listviewid, itemview, itemobj) {
     // TODO: implement how attributes of itemobj shall be displayed in itemview
-    console.log("im here bindListItemView")
+    console.log("im here bindListItemView");
   }
 
   /*
@@ -295,34 +223,4 @@ setVideoTime(){
     // TODO: implement action bindings for dialog, accessing dialog.root
   }
 
-
-  //benno
-      /*
-     * for views that initiate transitions to other views
-     * NOTE: return false if the view shall not be returned to, e.g. because we immediately want to display its previous view. Otherwise, do not return anything.
-     */
-    /*
-      async onReturnFromNextView(nextviewid, returnValue, returnStatus) {
-        // TODO: check from which view, and possibly with which status, we are returning, and handle returnValue accordingly
-        if (nextviewid == "mediaEditview") {
-            if (returnValue) {
-
-                console.log(returnValue);
-                if (returnValue.deletedItem) {
-                    this.previousView({deletedItem: returnValue.deletedItem});
-                    return false;
-                }
-                if (returnValue.updatedItem) {
-                    this.viewProxy.update({item: returnValue.updatedItem});
-
-                    // to be forwarded to listview
-                    this.updatedItem = returnValue.updatedItem;
-                }
-                    
-            }
-        }
-    }
-        */
-        
-    
 }

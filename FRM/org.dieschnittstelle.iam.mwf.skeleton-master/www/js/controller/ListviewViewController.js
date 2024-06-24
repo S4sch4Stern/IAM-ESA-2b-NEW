@@ -4,6 +4,7 @@
  */
 import { mwf } from "../Main.js";
 import { entities } from "../Main.js";
+import { MyEntity } from "../model/MyEntities.js";
 
 export default class ListviewViewController extends mwf.ViewController {
   // instance attributes set by mwf after instantiation
@@ -19,6 +20,8 @@ export default class ListviewViewController extends mwf.ViewController {
     super();
 
     console.log("ListviewViewController()");
+
+
   }
 
   /*
@@ -70,7 +73,14 @@ export default class ListviewViewController extends mwf.ViewController {
     
         entities.MediaItem.readAll().then((items) => {
           this.initialiseListview(items);
+          var x = 6;
+          console.log("test", items[0].added);
+          console.log("type of", typeof items[0].added);
+          console.log(typeof "asb");
+          console.log("test", items);
+          console.log(items);
         });
+
     
         // set the currentCRUDScope
         this.root.querySelector("#crudOperationStatus").innerHTML =

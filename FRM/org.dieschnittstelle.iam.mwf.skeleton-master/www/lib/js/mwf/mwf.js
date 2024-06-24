@@ -1612,6 +1612,7 @@ class ViewController {
     }
 
     addToListview(item, listviewid) {
+        debugger;
         var listview = getListviewAdapter.call(this, listviewid);
 
         console.log("addToListview(): " + listview + "/" + item);
